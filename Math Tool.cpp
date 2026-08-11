@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include <numeric>
+#include <limits>
 
 const double PI = 3.14159265358979323846;
 
@@ -260,28 +261,43 @@ int main() {
         std::cout << "2. 3D Shape Volume Finder\n";
         std::cout << "3. Pythagorean Theorem Solver (+ Area/Perimeter)\n";
         std::cout << "4. Quadratic Formula Solver\n";
-        std::cout << "5. Basic Calculator (+, -, *, /)\n";
+        std::cout << "5. Basic Calculator\n";
         std::cout << "6. Exit Program\n";
-        std::cout << "Select a tool (1-6): ";
-        std::cin >> modeChoice;
+        std::cout << "Select a mode (1-6): ";
+        
+        if (!(std::cin >> modeChoice)) {
+            std::cout << "Invalid input! Please enter a valid menu number.\n";
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            continue;
+        }
 
-        if (modeChoice == 1) {
-            trigFinder();
-        } else if (modeChoice == 2) {
-            volumeFinder();
-        } else if (modeChoice == 3) {
-            pythagoreanFinder();
-        } else if (modeChoice == 4) {
-            quadraticFinder();
-        } else if (modeChoice == 5) {
-            basicCalculator();
-        } else if (modeChoice == 6) {
-            std::cout << "Exiting program. Goodbye!\n";
-            running = false;
-        } else {
-            std::cout << "Invalid program selection. Try again.\n";
+        switch (modeChoice) {
+            case 1:
+                trigFinder();
+                break;
+            case 2:
+                volumeFinder();
+                break;
+            case 3:
+                pythagoreanFinder();
+                break;
+            case 4:
+                quadraticFinder();
+                break;
+            case 5:
+                basicCalculator();
+                break;
+            case 6:
+                std::cout << "Exiting Aureus' Ultimate Math Tool. Goodbye!\n";
+                running = false;
+                break;
+            default:
+                std::cout << "Option out of range. Choose a setting between 1 and 6.\n";
+                break;
         }
     }
-
     return 0;
 }
+
+

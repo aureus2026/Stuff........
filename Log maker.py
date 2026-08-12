@@ -27,3 +27,4 @@ try:
 
 except FileNotFoundError:
     print(f"Error: The file '{file_name}.{file_type}' not in directory.")
+print("Created by Aureus the femboy")

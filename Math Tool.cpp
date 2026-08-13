@@ -2,6 +2,7 @@
 #include <cmath>
 #include <numeric>
 #include <limits>
+#include <iomanip>
 
 const double PI = 3.14159265358979323846;
 
@@ -10,6 +11,13 @@ int trigFinder() {
     int degrees;
     std::cout << "What degrees: ";
     std::cin >> degrees;
+
+    if (std::cin.fail()) {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << "Invalid choice.\n";
+        return 0;
+    }
 
     double radians = degrees * (PI / 180.0);
     int divisor = std::gcd(degrees, 180);
@@ -39,7 +47,6 @@ int trigFinder() {
         std::cout << "tangent = " << (sin_val / cos_val) << "\n";
     }
 
-    std::cout << "Created by Aureus\n"; // Updated signature
     return 0;
 }
 
@@ -56,6 +63,13 @@ int volumeFinder() {
     std::cout << "5. Pyramid\n";
     std::cout << "Choose a shape (1-5): ";
     std::cin >> shapeChoice;
+
+    if (std::cin.fail()) {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << "Invalid choice.\n";
+        return 0;
+    }
 
     switch (shapeChoice) {
         case 1:
@@ -106,7 +120,6 @@ int volumeFinder() {
             break;
     }
 
-    std::cout << "Created by Aureus\n"; // Updated signature
     return 0;
 }
 
@@ -121,6 +134,13 @@ int pythagoreanFinder() {
     std::cout << "3. Solve for leg (b)\n";
     std::cout << "Which side is missing? (1-3): ";
     std::cin >> missingSideChoice;
+
+    if (std::cin.fail()) {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << "Invalid choice.\n";
+        return 0;
+    }
 
     switch (missingSideChoice) {
         case 1:
@@ -168,7 +188,6 @@ int pythagoreanFinder() {
 
     std::cout << "Triangle Perimeter = " << perimeter << "\n";
     std::cout << "Triangle Area = " << area << "\n";
-    std::cout << "Created by Aureus\n"; // Updated signature
     return 0;
 }
 
@@ -182,6 +201,13 @@ int quadraticFinder() {
     std::cin >> b;
     std::cout << "Enter c: ";
     std::cin >> c;
+
+    if (std::cin.fail()) {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << "Error: Invalid numeric input.\n";
+        return 0;
+    }
 
     if (a == 0) {
         std::cout << "Error: 'a' cannot be 0 in a quadratic equation.\n";
@@ -210,7 +236,6 @@ int quadraticFinder() {
         std::cout << "x2 = " << realPart << " - " << imaginaryPart << "i\n";
     }
 
-    std::cout << "Created by Aureus\n"; // Updated signature
     return 0;
 }
 
@@ -222,6 +247,13 @@ int basicCalculator() {
     std::cout << "\n--- Basic Calculator ---\n";
     std::cout << "Enter expression (e.g., 5 + 3 or 10 / 2): ";
     std::cin >> num1 >> op >> num2;
+
+    if (std::cin.fail()) {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << "Error: Invalid math expression input.\n";
+        return 0;
+    }
 
     switch (op) {
         case '+':
@@ -245,7 +277,178 @@ int basicCalculator() {
             break;
     }
 
-    std::cout << "Created by Aureus\n"; // Updated signature
+    return 0;
+}
+
+// --- 6. Linear System Solver (Algebra) ---
+int linearSystemSolver() {
+    double a1, b1, c1, a2, b2, c2;
+    std::cout << "\n--- 2x2 Linear System Solver ---\n";
+    std::cout << "Equation 1: a1*x + b1*y = c1\n";
+    std::cout << "Equation 2: a2*x + b2*y = c2\n";
+    std::cout << "Enter a1 b1 c1: ";
+    std::cin >> a1 >> b1 >> c1;
+    std::cout << "Enter a2 b2 c2: ";
+    std::cin >> a2 >> b2 >> c2;
+
+    if (std::cin.fail()) {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << "Error: Invalid parameters.\n";
+        return 0;
+    }
+
+    double determinant = a1 * b2 - a2 * b1;
+    if (std::abs(determinant) < 1e-12) {
+        double detX = c1 * b2 - c2 * b1;
+        double detY = a1 * c2 - a2 * c1;
+        if (std::abs(detX) < 1e-12 && std::abs(detY) < 1e-12) {
+            std::cout << "The linear system has infinitely many solutions (dependent lines).\n";
+        } else {
+            std::cout << "The linear system has no solution (parallel/inconsistent lines).\n";
+        }
+    } else {
+        double x = (c1 * b2 - c2 * b1) / determinant;
+        double y = (a1 * c2 - a2 * c1) / determinant;
+        std::cout << "Solutions:\n";
+        std::cout << "x = " << x << "\n";
+        std::cout << "y = " << y << "\n";
+    }
+
+    return 0;
+}
+
+// --- 7. Sequences Solver (Algebra) ---
+int sequenceSolver() {
+    int typeChoice;
+    std::cout << "\n--- Sequence Term & Sum Solver ---\n";
+    std::cout << "1. Arithmetic Sequence\n";
+    std::cout << "2. Geometric Sequence\n";
+    std::cout << "Choose sequence type (1-2): ";
+    std::cin >> typeChoice;
+
+    if (std::cin.fail() || (typeChoice != 1 && typeChoice != 2)) {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << "Invalid selection.\n";
+        return 0;
+    }
+
+    double a = 0.0;
+    int n = 0;
+    std::cout << "Enter the first term (a): ";
+    std::cin >> a;
+    std::cout << "Enter the target term index (n): ";
+    std::cin >> n;
+
+    if (n <= 0) {
+        std::cout << "Error: Term index must be a positive integer.\n";
+        return 0;
+    }
+
+    if (typeChoice == 1) {
+        double d = 0.0;
+        std::cout << "Enter common difference (d): ";
+        std::cin >> d;
+
+        double nthTerm = a + (n - 1) * d;
+        double sequenceSum = (n / 2.0) * (2.0 * a + (n - 1) * d);
+
+        std::cout << "Value of term " << n << " = " << nthTerm << "\n";
+        std::cout << "Sum of first " << n << " terms = " << sequenceSum << "\n";
+    } else {
+        double r = 0.0;
+        std::cout << "Enter common ratio (r): ";
+        std::cin >> r;
+
+        double nthTerm = a * std::pow(r, n - 1);
+        double sequenceSum = 0.0;
+        if (std::abs(r - 1.0) < 1e-12) {
+            sequenceSum = a * n;
+        } else {
+            sequenceSum = a * (1.0 - std::pow(r, n)) / (1.0 - r);
+        }
+
+        std::cout << "Value of term " << n << " = " << nthTerm << "\n";
+        std::cout << "Sum of first " << n << " terms = " << sequenceSum << "\n";
+    }
+
+    return 0;
+}
+
+// --- 8. Numerical Derivative Finder (Calculus) ---
+int derivativeFinder() {
+    double a, b, c, d, x;
+    std::cout << "\n--- Numerical Derivative Finder ---\n";
+    std::cout << "Function template: f(x) = a*x^3 + b*x^2 + c*x + d\n";
+    std::cout << "Enter coefficient a: ";
+    std::cin >> a;
+    std::cout << "Enter coefficient b: ";
+    std::cin >> b;
+    std::cout << "Enter coefficient c: ";
+    std::cin >> c;
+    std::cout << "Enter constant d: ";
+    std::cin >> d;
+    std::cout << "Enter point x to evaluate f'(x): ";
+    std::cin >> x;
+
+    if (std::cin.fail()) {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << "Error: Invalid numeric parameters.\n";
+        return 0;
+    }
+
+    double h = 1e-5; 
+    auto f = [=](double val) { return a * std::pow(val, 3) + b * std::pow(val, 2) + c * val + d; };
+
+    double derivativeApprox = (f(x + h) - f(x - h)) / (2.0 * h);
+    double exactAnalytical = 3.0 * a * std::pow(x, 2) + 2.0 * b * x + c;
+
+    std::cout << "Symmetric Difference Approximation f'(" << x << ") ~ " << derivativeApprox << "\n";
+    std::cout << "Exact Analytical Derivative f'(" << x << ") = " << exactAnalytical << "\n";
+    return 0;
+}
+
+// --- 9. Numerical Definite Integral Solver (Calculus) ---
+int integralSolver() {
+    double a, b, c, d, lowerLim, upperLim;
+    int intervals;
+
+    std::cout << "\n--- Numerical Definite Integral Solver ---\n";
+    std::cout << "Function template: f(x) = a*x^3 + b*x^2 + c*x + d\n";
+    std::cout << "Enter coefficient a: ";
+    std::cin >> a;
+    std::cout << "Enter coefficient b: ";
+    std::cin >> b;
+    std::cout << "Enter coefficient c: ";
+    std::cin >> c;
+    std::cout << "Enter constant d: ";
+    std::cin >> d;
+    std::cout << "Enter integration lower bound: ";
+    std::cin >> lowerLim;
+    std::cout << "Enter integration upper bound: ";
+    std::cin >> upperLim;
+    std::cout << "Enter partitioning intervals (e.g., 10000): ";
+    std::cin >> intervals;
+
+    if (std::cin.fail() || intervals <= 0) {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << "Error: Invalid interval partitioning constraints.\n";
+        return 0;
+    }
+
+    double h = (upperLim - lowerLim) / intervals;
+    auto f = [=](double val) { return a * std::pow(val, 3) + b * std::pow(val, 2) + c * val + d; };
+
+    double integralSum = 0.5 * (f(lowerLim) + f(upperLim));
+    for (int i = 1; i < intervals; ++i) {
+        integralSum += f(lowerLim + i * h);
+    }
+    double totalArea = integralSum * h;
+
+    std::cout << "Definite Integral evaluated over [" << lowerLim << ", " << upperLim << "] ~ " << totalArea << "\n";
     return 0;
 }
 
@@ -254,50 +457,49 @@ int main() {
     int modeChoice = 0;
     bool running = true;
 
+    std::cout << std::fixed << std::setprecision(6);
+
     while (running) {
-        std::cout << "\n=== Aureus' Ultimate Math Tool ===\n";
+        std::cout << "\n=== Ultimate Math Tool ===\n";
         std::cout << "Copyright 2026\n";
         std::cout << "1. Trigonometry Finder\n";
         std::cout << "2. 3D Shape Volume Finder\n";
         std::cout << "3. Pythagorean Theorem Solver (+ Area/Perimeter)\n";
         std::cout << "4. Quadratic Formula Solver\n";
         std::cout << "5. Basic Calculator\n";
-        std::cout << "6. Exit Program\n";
-        std::cout << "Select a mode (1-6): ";
-        
-        if (!(std::cin >> modeChoice)) {
-            std::cout << "Invalid input! Please enter a valid menu number.\n";
+        std::cout << "6. Algebra: 2x2 Linear System Solver\n";
+        std::cout << "7. Algebra: Arithmetic & Geometric Sequences\n";
+        std::cout << "8. Calculus: Numerical Derivative Finder\n";
+        std::cout << "9. Calculus: Definite Integral Solver\n";
+        std::cout << "10. Exit Application\n";
+        std::cout << "Choose an option (1-10): ";
+        std::cin >> modeChoice;
+
+        if (std::cin.fail()) {
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Invalid menu item choice. Please input an integer from 1 to 10.\n";
             continue;
         }
 
         switch (modeChoice) {
-            case 1:
-                trigFinder();
-                break;
-            case 2:
-                volumeFinder();
-                break;
-            case 3:
-                pythagoreanFinder();
-                break;
-            case 4:
-                quadraticFinder();
-                break;
-            case 5:
-                basicCalculator();
-                break;
-            case 6:
-                std::cout << "Exiting Aureus' Ultimate Math Tool. Goodbye!\n";
+            case 1: trigFinder(); break;
+            case 2: volumeFinder(); break;
+            case 3: pythagoreanFinder(); break;
+            case 4: quadraticFinder(); break;
+            case 5: basicCalculator(); break;
+            case 6: linearSystemSolver(); break;
+            case 7: sequenceSolver(); break;
+            case 8: derivativeFinder(); break;
+            case 9: integralSolver(); break;
+            case 10:
+                std::cout << "Thank you for utilizing the Ultimate Math Tool. Goodbye!\n";
                 running = false;
                 break;
             default:
-                std::cout << "Option out of range. Choose a setting between 1 and 6.\n";
+                std::cout << "Option not recognized. Please choose from options 1-10.\n";
                 break;
         }
     }
     return 0;
 }
-
-
